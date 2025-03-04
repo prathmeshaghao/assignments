@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "InsuranceManagementSystem": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\User\\source\\repos\\InsuranceManagementSystem"
+    }
+  }
+}
