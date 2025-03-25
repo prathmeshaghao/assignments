@@ -1,0 +1,140 @@
+﻿@model Vehicle_Rental_System.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    /* Vehicle-Themed Background */
+    body {
+        background: url('https://source.unsplash.com/1600x900/?car,road') no-repeat center center fixed;
+        background-size: cover;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Glassmorphic Form Container */
+    .register-container {
+        backdrop-filter: blur(12px);
+        background: rgba(0, 0, 0, 0.7); /* Dark Glass Effect */
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.6);
+        width: 400px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+        /* Form Title */
+        .register-container h2 {
+            color: #ffcc00; /* Sports Car Yellow */
+            font-weight: bold;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+        }
+
+    /* Input Fields */
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 12px;
+        transition: all 0.3s ease-in-out;
+        border-radius: 8px;
+    }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffcc00;
+            box-shadow: 0px 0px 10px #ffcc00;
+            outline: none;
+        }
+
+    /* Register Button */
+    .btn-register {
+        background: linear-gradient(45deg, #ffcc00, #ff8800);
+        border: none;
+        color: black;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0px 4px 10px rgba(255, 136, 0, 0.5);
+    }
+
+        .btn-register:hover {
+            background: linear-gradient(45deg, #ff8800, #ff5500);
+            box-shadow: 0px 6px 15px rgba(255, 85, 0, 0.6);
+            transform: scale(1.05);
+        }
+
+    /* Login Button */
+    .btn-login {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid #ffcc00;
+        transition: all 0.3s ease-in-out;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+        .btn-login:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 0px 10px #ffcc00;
+            transform: scale(1.05);
+        }
+</style>
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="register-container">
+        <h2>Create an Account</h2>
+        <hr />
+
+        <form asp-action="Register">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="UserName" class="form-label fw-bold text-white"></label>
+                <input asp-for="UserName" class="form-control" placeholder="Enter your username" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label fw-bold text-white"></label>
+                <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label fw-bold text-white"></label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label fw-bold text-white"></label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-register fw-bold">Register</button>
+                <a asp-action="Login" class="btn btn-login fw-bold">Already have an account? Log In</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

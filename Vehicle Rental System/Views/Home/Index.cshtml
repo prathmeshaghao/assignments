@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Vehicle_Rental_System.Models.Vehicle>
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<User> _signInManger;
+
+@{
+    ViewData["Title"] = "Available Vehicles";
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #1e3c72, #2a5298);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .container {
+        margin-top: 40px;
+    }
+
+    .welcome-banner {
+        text-align: center;
+        color: white;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+        .welcome-banner h1 {
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+    .lead {
+        color: #d1d1d1;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+
+    h2 {
+        color: white;
+        text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+        border-bottom: 2px solid rgba(255, 204, 0, 0.8);
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .vehicle-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+        color: white;
+        position: relative;
+    }
+
+        .vehicle-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.9), 0 0 40px rgba(255, 204, 0, 0.7);
+        }
+
+        .vehicle-card::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            width: 60%;
+            height: 4px;
+            background: rgba(255, 204, 0, 0.7);
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.9);
+            transform: translateX(-50%);
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .vehicle-card:hover::after {
+            width: 80%;
+        }
+
+    .card-title {
+        font-weight: bold;
+        text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+    }
+
+    .btn-custom {
+        background: #ff8c00;
+        border: none;
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 8px;
+        transition: background 0.3s, box-shadow 0.3s;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+    }
+
+        .btn-custom:hover {
+            background: #e07b00;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 1), 0 0 30px rgba(255, 204, 0, 0.8);
+        }
+
+    /* Remove neon effect */
+    .display-4 {
+        text-shadow: none !important; /* This removes glow */
+        color: white; /* Adjust color if needed */
+    }
+
+
+
+</style>
+
+<!-- Welcome Banner -->
+<div class="container welcome-banner">
+    <h1 class="display-4">
+        @(_signInManger.IsSignedIn(User) ? $"Welcome, {User.Identity.Name}! " : "Welcome To Vehicle Rental System - VRS")
+    </h1>
+    <p class="lead">Find the best vehicles for rent at affordable prices.</p>
+</div>
+
+<hr class="border-light" />
+
+<!-- Vehicle Listing -->
+<div class="container">
+    <h2 class="text-center mb-4">Available Vehicles</h2>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card vehicle-card border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Brand @item.Model</h5>
+                        <p class="card-text"><strong>Type:</strong> @item.Type</p>
+                        <p class="card-text"><strong>Rental Price:</strong> ₹@item.RentalPricePerDay/day</p>
+                        <p class="card-text">
+                            <strong>Status:</strong>
+                            <span class="badge @(item.IsAvailable ? "bg-success" : "bg-danger")">
+                                @(item.IsAvailable ? "Available" : "Not Available")
+                            </span>
+                        </p>
+                        <a asp-controller="Vehicle" asp-action="GetVehicleById" asp-route-id="@item.VehicleId" class="btn btn-custom w-100">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
